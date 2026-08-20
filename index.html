@@ -2,135 +2,358 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alex | Freelance Web Developer Portfolio</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; background-color: #f4f7f6; }
-    h1, h2 { color: #333; }
-    fieldset { border: 1px solid #ccc; padding: 15px; border-radius: 8px; background: #fff; margin-bottom: 20px; }
-    button { padding: 8px 16px; background-color: #0066cc; color: #fff; border: none; cursor: pointer; border-radius: 4px; }
-    button:hover { background-color: #004b99; }
-    .gallery-img { width: 150px; height: 100px; margin: 5px; border-radius: 4px; border: 1px solid #ddd; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; }
-    table, th, td { border: 1px solid #0066cc; padding: 8px; text-align: left; }
-    th { background-color: #e6f2ff; color: #0066cc; }
+    :root {
+      --bg-primary: #0f172a;
+      --bg-card: #1e293b;
+      --accent-color: #38bdf8;
+      --accent-hover: #0284c7;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Fullscreen Layout Structure */
+    header {
+      background: rgba(30, 41, 59, 0.8);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand { font-size: 1.5rem; font-weight: bold; color: var(--accent-color); }
+
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--accent-color); }
+
+    main {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .hero-section {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .hero-title { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--text-main); transition: color 0.3s; }
+    .hero-subtitle { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.1rem; }
+
+    /* Dashboard Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    /* Form Controls */
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background-color: #0f172a;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .radio-group { display: flex; gap: 1rem; margin-top: 0.5rem; }
+    .radio-group label { display: flex; align-items: center; gap: 0.3rem; cursor: pointer; }
+
+    .btn {
+      width: 100%;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 6px;
+      background-color: var(--accent-color);
+      color: #0f172a;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 0.5rem;
+    }
+    .btn:hover { background-color: var(--accent-hover); color: white; }
+    .btn:active { transform: scale(0.98); }
+
+    /* Showcase Image Box */
+    .showcase-box {
+      text-align: center;
+      padding: 1rem;
+      background: #0f172a;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .showcase-img { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; }
+
+    /* Submitted Table Container */
+    .table-container {
+      grid-column: 1 / -1;
+      display: none;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { border: 1px solid var(--border-color); padding: 10px; text-align: left; }
+    th { background-color: #0f172a; color: var(--accent-color); }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-muted);
+      margin-top: auto;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Hero Header Section -->
-  <h1 id="hero-title">Alex - Freelance Web Developer</h1>
-  <p id="welcome-msg">Hover over or click the button below to interact with DOM events.</p>
-  <button id="interactive-btn">Click Me!</button>
+  <!-- Fullscreen Navigation -->
+  <header>
+    <div class="brand">Alex.dev</div>
+    <ul class="nav-links">
+      <li><a href="#analyzer">Analyzer</a></li>
+      <li><a href="#estimator">Estimator</a></li>
+      <li><a href="#portfolio">Showcase</a></li>
+      <li><a href="#contact">Hire Me</a></li>
+    </ul>
+  </header>
 
-  <hr>
+  <main>
+    <!-- Interactive Hero Banner -->
+    <section class="hero-section">
+      <h1 id="hero-title" class="hero-title">Alex | Freelance Web Developer</h1>
+      <p id="hero-status" class="hero-subtitle">Specialized in modern web interfaces, interactive DOM features, and full-stack integration.</p>
+      <button id="interactive-btn" class="btn" style="width: auto; padding: 0.6rem 2rem;">Explore Developer Status</button>
+    </section>
 
-  <!-- Project Rate & Cost Calculator (DOM Selection & Inputs) -->
-  <fieldset>
-    <legend><h2>Project Cost Estimator</h2></legend>
-    Estimated Hours: <input type="text" id="hours" value="10" /><br /><br />
-    
-    Service Type:
-    <select id="service-type">
-      <option value="50">Web Development ($50/hr)</option>
-      <option value="40">UI/UX Design ($40/hr)</option>
-      <option value="60">Full-Stack Solution ($60/hr)</option>
-    </select>
-    <br /><br />
+    <!-- Interactive Grid Content -->
+    <div class="dashboard-grid">
 
-    Urgency Level:
-    <label><input type="radio" value="1.0" name="urgency" checked="checked" /> Standard</label>
-    <label><input type="radio" value="1.25" name="urgency" /> Fast (+25%)</label>
-    <label><input type="radio" value="1.5" name="urgency" /> Rush (+50%)</label>
-    <br /><br />
+      <!-- Card 1: Text Analyzer Tool (String Shortest/Longest Word Lab Feature) -->
+      <div class="card" id="analyzer">
+        <h2 class="card-title">Project Scope Text Analyzer</h2>
+        <div class="form-group">
+          <label for="scope-text">Enter Project Overview/Requirements:</label>
+          <input type="text" id="scope-text" value="Web Development Tutorial Portfolio Workspace" />
+        </div>
+        <button id="analyze-btn" class="btn">Analyze Text String</button>
+        <div style="margin-top: 1rem; line-height: 1.8;">
+          <p>Shortest Word: <strong id="shortest-word" style="color: var(--accent-color);">-</strong></p>
+          <p>Longest Word: <strong id="longest-word" style="color: var(--accent-color);">-</strong></p>
+        </div>
+      </div>
 
-    <button id="calc-btn">Calculate Estimate</button>
-    <p>Estimated Total: <strong>$<span id="total-price">0.00</span></strong></p>
-  </fieldset>
+      <!-- Card 2: Interactive Cost & Time Estimator -->
+      <div class="card" id="estimator">
+        <h2 class="card-title">Project Cost Estimator</h2>
+        <div class="form-group">
+          <label for="hours">Estimated Work Hours:</label>
+          <input type="text" id="hours" value="20" />
+        </div>
+        <div class="form-group">
+          <label for="service-type">Select Service Type:</label>
+          <select id="service-type">
+            <option value="50">Frontend UI Development ($50/hr)</option>
+            <option value="65">Full-Stack Application ($65/hr)</option>
+            <option value="40">DOM & Web Optimization ($40/hr)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Delivery Urgency:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="urgency" value="1.0" checked /> Standard</label>
+            <label><input type="radio" name="urgency" value="1.25" /> Fast (+25%)</label>
+            <label><input type="radio" name="urgency" value="1.5" /> Rush (+50%)</label>
+          </div>
+        </div>
+        <button id="calc-btn" class="btn">Calculate Estimate</button>
+        <p style="margin-top: 1rem; font-size: 1.1rem;">Estimated Total: <strong id="total-price" style="color: var(--accent-color);">$0.00</strong></p>
+      </div>
 
-  <!-- Dynamic Featured Work Display (Array & Image DOM Manipulation) -->
-  <fieldset>
-    <legend><h2>Featured Portfolio Sample</h2></legend>
-    <p>Click below to generate a random client showcase sample:</p>
-    <img id="portfolio-sample" src="https://via.placeholder.com/150/0066cc/ffffff?text=Project+1" class="gallery-img" alt="Work Sample" /><br />
-    <button id="shuffle-btn">Shuffle Sample Project</button>
-  </fieldset>
+      <!-- Card 3: Dynamic Portfolio Project Sampler -->
+      <div class="card" id="portfolio">
+        <h2 class="card-title">Portfolio Showcase Sampler</h2>
+        <div class="showcase-box">
+          <img id="project-img" class="showcase-img" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500" alt="Project Sample" />
+        </div>
+        <p id="project-caption" style="text-align: center; color: var(--text-muted); margin-bottom: 0.5rem;">Web Application Architecture</p>
+        <button id="shuffle-btn" class="btn">Shuffle Work Sample</button>
+      </div>
 
-  <!-- Client Details Submission (Form Handling & Dynamic Table Output) -->
-  <fieldset>
-    <legend><h2>Hire Alex - Client Inquiry</h2></legend>
-    Client Name: <input type="text" id="client-name" /><br /><br />
-    Email: <input type="text" id="client-email" /><br /><br />
-    Selected Service: 
-    <select id="client-service">
-      <option>Web Development</option>
-      <option>UI/UX Design</option>
-      <option>Full-Stack Solution</option>
-    </select><br /><br />
-    
-    <button id="submit-inquiry">Submit Details</button>
-  </fieldset>
+      <!-- Card 4: Interactive Hiring Form -->
+      <div class="card" id="contact" style="grid-column: 1 / -1;">
+        <h2 class="card-title">Hire Alex - Submit Project Details</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+          <div class="form-group">
+            <label for="client-name">Full Name:</label>
+            <input type="text" id="client-name" placeholder="John Doe" />
+          </div>
+          <div class="form-group">
+            <label for="client-email">Email Address:</label>
+            <input type="text" id="client-email" placeholder="john@example.com" />
+          </div>
+          <div class="form-group">
+            <label for="client-service">Required Service:</label>
+            <select id="client-service">
+              <option>Web Development</option>
+              <option>DOM & JS Optimization</option>
+              <option>Full-Stack Application</option>
+            </select>
+          </div>
+        </div>
+        <button id="submit-btn" class="btn">Submit Details</button>
+      </div>
 
-  <!-- Table Output Section -->
-  <div id="output-container" style="display:none;">
-    <h2 style="color: blue; text-decoration: underline;">User Submitted Details</h2>
-    <table>
-      <tr><th>Field</th><th>Submitted Value</th></tr>
-      <tr><td>Client Name</td><td id="out-name"></td></tr>
-      <tr><td>Email</td><td id="out-email"></td></tr>
-      <tr><td>Requested Service</td><td id="out-service"></td></tr>
-    </table>
-  </div>
+      <!-- Dynamic Summary Output Table -->
+      <div id="output-container" class="table-container">
+        <h2 style="color: var(--accent-color); text-decoration: underline;">User Submitted Details</h2>
+        <table>
+          <thead>
+            <tr><th>Field Description</th><th>Submitted Information</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Client Name</td><td id="out-name"></td></tr>
+            <tr><td>Email Address</td><td id="out-email"></td></tr>
+            <tr><td>Requested Service</td><td id="out-service"></td></tr>
+            <tr><td>Estimated Project Quote</td><td id="out-quote"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Alex Freelance Portfolio | Designed using JavaScript DOM Elements & Events</p>
+  </footer>
 
   <script>
-    // 1. DOM Element Selection & Mouse Events
+    // 1. DOM Element Selection Methods & Mouse Events
     var heroTitle = document.getElementById("hero-title"); // Target element by ID
-    var interactiveBtn = document.getElementById("interactive-btn");
+    var interactiveBtn = document.getElementById("interactive-btn"); // Target element by ID
 
-    interactiveBtn.addEventListener("click", function() { // Attach click event handler
-      document.getElementById("welcome-msg").innerHTML = "Thanks for visiting Alex's Freelance Workspace!"; // Modify document content
+    interactiveBtn.addEventListener("click", function() { // Attach click event listener
+      document.getElementById("hero-status").innerHTML = "Status: Available for new freelance contracts & DOM development!"; // Modify element innerHTML
     });
 
-    interactiveBtn.addEventListener("mouseover", function() { // Attach mouseover event
-      heroTitle.style.color = "#0066cc";
+    interactiveBtn.addEventListener("mouseover", function() { // Attach mouseover event handler[cite: 1]
+      heroTitle.style.color = "#38bdf8";
     });
 
-    // 2. Project Estimator Calculation Logic
+    interactiveBtn.addEventListener("mouseout", function() { // Attach mouseout event handler[cite: 1]
+      heroTitle.style.color = "#f8fafc";
+    });
+
+    // 2. String Word Length Finder (Shortest & Longest Word)
+    document.getElementById("analyze-btn").addEventListener("click", function analyzeString() {
+      var str = document.getElementById("scope-text").value; // Extract string value[cite: 1]
+      var words = str.split(" "); // Split string into array[cite: 1]
+      
+      if (words.length > 0 && str.trim() !== "") { // Check length[cite: 1]
+        var shortest = words[0];
+        var longest = words[0];
+
+        for (var i = 0; i < words.length; i++) {
+          if (words[i].length < shortest.length && words[i].length > 0) { // Check string length[cite: 1]
+            shortest = words[i];
+          }
+          if (words[i].length > longest.length) { // Check string length[cite: 1]
+            longest = words[i];
+          }
+        }
+        document.getElementById("shortest-word").innerText = shortest;
+        document.getElementById("longest-word").innerText = longest;
+      }
+    });
+
+    // 3. Project Estimator Logic
     document.getElementById("calc-btn").addEventListener("click", function calculateEstimate() {
       var hours = parseFloat(document.getElementById("hours").value) || 0; // Extract input value[cite: 1]
-      
       var serviceSelect = document.getElementById("service-type");
-      var hourlyRate = parseFloat(serviceSelect.options[serviceSelect.selectedIndex].value); // Extract value from dropdown index[cite: 1]
-      
-      var urgencyMultiplier = parseFloat(document.querySelector('input[name="urgency"]:checked').value); // Extract checked radio button[cite: 1]
-      
-      var total = hours * hourlyRate * urgencyMultiplier;
-      document.getElementById("total-price").innerText = total.toFixed(2); // Output score display[cite: 1]
+      var rate = parseFloat(serviceSelect.options[serviceSelect.selectedIndex].value); // Extract value from dropdown index[cite: 1]
+      var multiplier = parseFloat(document.querySelector('input[name="urgency"]:checked').value); // Extract selected radio value[cite: 1]
+
+      var total = hours * rate * multiplier;
+      document.getElementById("total-price").innerText = "$" + total.toFixed(2);
     });
 
-    // 3. Dynamic Image Showcase (Array + Random Generation)
-    var projectImages = [
-      "https://via.placeholder.com/150/0066cc/ffffff?text=E-Commerce", // Portfolio image options[cite: 1]
-      "https://via.placeholder.com/150/339966/ffffff?text=Mobile+App",
-      "https://via.placeholder.com/150/cc3333/ffffff?text=Dashboard"
+    // 4. Random Project Sampler (Array + Math.random Image Swap)
+    var portfolioSamples = [
+      { img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500", caption: "Web Application Architecture" },
+      { img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500", caption: "Data Analytics Dashboard" },
+      { img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500", caption: "E-Commerce Interface" }
     ];
 
-    document.getElementById("shuffle-btn").addEventListener("click", function shuffleProject() {
-      var randomIndex = Math.floor(Math.random() * projectImages.length); // Math.random index calculation[cite: 1]
-      document.getElementById("portfolio-sample").src = projectImages[randomIndex]; // Dynamic src modification[cite: 1]
+    document.getElementById("shuffle-btn").addEventListener("click", function shuffleShowcase() {
+      var randomIndex = Math.floor(Math.random() * portfolioSamples.length); // Math.random index calculation[cite: 1]
+      document.getElementById("project-img").src = portfolioSamples[randomIndex].img; // Dynamic src modification[cite: 1]
+      document.getElementById("project-caption").innerText = portfolioSamples[randomIndex].caption;
     });
 
-    // 4. Form Submission and Dynamic Table Generation
-    document.getElementById("submit-inquiry").addEventListener("click", function submitDetails() {
+    // 5. Client Form Submission & Dynamic Table Rendering
+    document.getElementById("submit-btn").addEventListener("click", function submitDetails() {
       var name = document.getElementById("client-name").value;
       var email = document.getElementById("client-email").value;
       var serviceIndex = document.getElementById("client-service").selectedIndex;
       var service = document.getElementById("client-service")[serviceIndex].value; // Dropdown value extraction[cite: 1]
+      var quote = document.getElementById("total-price").innerText;
 
-      document.getElementById("out-name").innerText = name;
-      document.getElementById("out-email").innerText = email;
+      document.getElementById("out-name").innerText = name || "N/A";
+      document.getElementById("out-email").innerText = email || "N/A";
       document.getElementById("out-service").innerText = service;
+      document.getElementById("out-quote").innerText = quote;
 
-      document.getElementById("output-container").style.display = "block"; // Display submitted details[cite: 1]
+      document.getElementById("output-container").style.display = "block"; // Render output container table[cite: 1]
     });
   </script>
 </body>
